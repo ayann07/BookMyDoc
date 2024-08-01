@@ -1,44 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { BASE_URL } from '../../../main';
-import toast from 'react-hot-toast';
 import starIcon from '../../../assets/images/Star.png'
 import DoctorAbout from '../../doctors/DoctorAbout';
-const Overview = () => {
-    const { authToken } = useSelector(store => store.user);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState()
-
-    const getDetails = async () => {
-        setLoading(true)
-        try {
-            const response = await fetch(`${BASE_URL}/doctor/mydetails`, {
-                method: "GET",
-                headers: {
-                    Authorization: authToken,
-                }
-            })
-            const result = await response.json();
-            console.log(result.doctor)
-            if (!response.ok) {
-                toast.error(result.message)
-            }
-            setData(result.doctor)
-
-        }
-        catch (err) {
-            toast.error(err.message)
-        }
-        finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        getDetails();
-    }, [])
-
-    console.log(data)
+const Overview = ({loading,data}) => {
     return (
         <div>
         {data && <div>

@@ -1,10 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { BiMenu } from "react-icons/bi";
 import Overview from '../components/dashboard/DoctorDashboard/Overview';
 import Appointments from '../components/dashboard/DoctorDashboard/appointments';
 import Settings from '../components/dashboard/DoctorDashboard/Settings';
+import { useSelector } from 'react-redux';
+import { BASE_URL } from '../main';
+import toast from 'react-hot-toast';
 const DoctorDashboard = () => {
+  const { authToken,authUser } = useSelector(store => store.user);
   const [tab, setTab] = useState('overview');
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState()
+  const getDetails = async () => {
+      setLoading(true)
+      try {
+          const response = await fetch(`${BASE_URL}/doctor/${authUser.userId}`, {
+              method: "GET",
+              headers: {
+                Authorization: authToken,
+            }
+          })
+          const result = await response.json();
+          if (!response.ok) {
+              toast.error(result.message)
+          }
+          setData(result.doctor)
+
+      }
+      catch (err) {
+          toast.error(err.message)
+      }
+      finally {
+          setLoading(false)
+      }
+  }
+
+  useEffect(() => {
+      getDetails();
+  }, [])
 
   return (
     <section>
@@ -38,10 +71,10 @@ const DoctorDashboard = () => {
       </div>
         <div className='mt-8 lg:col-span-1'>
          {
-          tab==='overview' && <Overview/>
+          tab==='overview' && <Overview loading={loading} data={data}/>
          }
          {
-          tab==='appointments' && <Appointments/>
+          tab==='appointments' && <Appointments appointments={data.appointments} />
          }
          {
           tab==='settings' && <Settings/>

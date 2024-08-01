@@ -5,11 +5,11 @@ import reviewRoute from './reviewRoute.js'
 
 const router=express.Router()
 
-router.use('/:doctorId/reviews/',reviewRoute)
+router.use('/:id/reviews/',reviewRoute)
 
 router.put('/',authenticate,restrict(['doctor']),updateDoctor)
 router.delete('/',authenticate,restrict(['doctor']),deleteDoctor)
-router.get('/mydetails',authenticate,getDoctorDetails)
+router.get('/:id',getDoctorDetails)
 router.get('/',getAllDoctors)
 
 

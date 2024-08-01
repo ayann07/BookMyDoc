@@ -10,7 +10,7 @@
 
 @layer components{
     .container{
-        @apply max-w-full w-[1140px] px-5 mx-auto
+        @apply max-w-full w-[1440px] px-5 mx-auto
     }
 
     .btn{
@@ -62,6 +62,6 @@
         @apply text-[16px] leading-7 mt-3;
     }
     .hero__section{
-        @apply w-[120%]
+        @apply w-[100%]
     }
 }

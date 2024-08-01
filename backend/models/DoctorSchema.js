@@ -41,7 +41,6 @@ const DoctorSchema = new mongoose.Schema({
 
   bio: {
     type: String,
-    maxLength: 50
   },
   about: {
     type: String

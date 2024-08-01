@@ -112,6 +112,7 @@ export const login = async (req, res) => {
             message: 'successfully login',
             token,
             data: {
+                userId:user._id,
                 name:user.name,
                 email:user.email,
                 photo:user.photo, 

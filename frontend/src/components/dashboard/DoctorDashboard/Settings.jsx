@@ -178,6 +178,14 @@ const Settings = () => {
                     />
                 </div>
                 <div className='mb-5'>
+                    <p className='form__label'>Email</p>
+                    <input
+                        placeholder={authUser?.email}
+                        className='form__input'
+                        disabled
+                    />
+                </div>
+                <div className='mb-5'>
                     <p className='form__label'>New Password</p>
                     <input
                         type="password"

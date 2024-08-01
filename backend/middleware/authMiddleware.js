@@ -16,7 +16,7 @@ export const authenticate = async (req, res, next) => {
         req.role = decodedData.role;
         req.userId = decodedData.id;
     } catch (err) {
-        return res.status(401).json(err.message);
+        return res.status(401).json({message:'Unauthorized request'});
     }
     next();
 

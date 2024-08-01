@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import logo from '../assets/images/logo.png';
-import { Link, NavLink,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoMdMenu } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthToken, setAuthUser, setRole } from '../redux/userSlice';
@@ -28,10 +28,10 @@ const Header = () => {
   const headerRef = useRef(null);
   const menuRef = useRef(null);
 
-
   const { authUser, role, authToken } = useSelector(store => store.user);
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
   const handleStickyHeader = () => {
     window.addEventListener('scroll', () => {
       if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
@@ -66,33 +66,41 @@ const Header = () => {
       <div className="container">
         <div className='flex items-center justify-between'>
           <div>
-            <img src={logo} alt="" />
+            <img src={logo} alt="Logo" />
           </div>
           <div className='navigation' ref={menuRef} onClick={toggleMenu}>
             <ul className='menu flex items-center gap-[2.7rem]'>
               {
                 navLinks.map((item, index) =>
                   <li key={index}>
-                    <NavLink to={item.path} className={navClass => navClass.isActive ? 'text-primaryColor text-[16px] leading-7 font-[600] '
+                    <Link to={item.path} className={navClass => navClass.isActive ? 'text-primaryColor text-[16px] leading-7 font-[600] '
                       : 'text-textColor text-[16px] leading-7 font-[500]'}>
                       {item.display}
-                    </NavLink>
+                    </Link>
                   </li>
                 )
               }
               {authToken && authUser && (
-                <li className='lg:hidden'>
-                  <button onClick={handleLogout} className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>Logout</button>
-                </li>
+                <>
+                  <li className='lg:hidden'>
+                    <Link to={`${role === 'doctor' ? 'doctors/profile/me' : 'users/profile/me'}`} className={navClass => navClass.isActive ? 'text-primaryColor text-[16px] leading-7 font-[600] '
+                      : 'text-textColor text-[16px] leading-7 font-[500]'}>
+                      Your Profile
+                    </Link>
+                  </li>
+                  <li className='lg:hidden'>
+                    <button onClick={handleLogout} className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>Logout</button>
+                  </li>
+                </>
               )}
             </ul>
           </div>
           <div className='flex items-center gap-4'>
             {authToken && authUser ? (
               <div className='flex items-center gap-2'>
-                <Link to={`${role === 'doctor' ? 'doctors/profile/me' : 'users/profile/me'}`} className='flex items-center gap-2'>
+                <Link to={`${role === 'doctor' ? 'doctors/profile/me' : 'users/profile/me'}`} className='hidden lg:flex items-center gap-2'>
                   <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
-                    <img src={authUser?.photo} className='w-full h-full rounded-full' alt="" />
+                    <img src={authUser?.photo} className='w-full h-full rounded-full' alt="Profile" />
                   </figure>
                   <h2 className='text-[16px] font-[600]'>{authUser?.name}</h2>
                 </Link>
@@ -114,3 +122,4 @@ const Header = () => {
 };
 
 export default Header;
+

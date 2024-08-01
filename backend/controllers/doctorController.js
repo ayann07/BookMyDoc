@@ -3,10 +3,9 @@ import bcrypt from 'bcryptjs'
 
 
 export const updateDoctor = async (req, res) => {
-    const id = req.userId 
+    const id = req.userId
     try {
-        if(req.body.password)
-        {
+        if (req.body.password) {
             const salt = await bcrypt.genSalt(10)
             req.body.password = await bcrypt.hash(req.body.password, salt)
         }
@@ -18,10 +17,13 @@ export const updateDoctor = async (req, res) => {
                 message: 'no user found with given id'
             })
         }
-        const { password, ...rest } = updatedDoctor._doc;
+        const {
+            password,
+            ...rest
+        } = updatedDoctor._doc;
         return res.status(200).json({
             message: 'User details updated successfully.',
-            updatedDoctor:rest
+            updatedDoctor: rest
         })
     } catch (err) {
         return res.status(500).json(err.message)
@@ -29,7 +31,7 @@ export const updateDoctor = async (req, res) => {
 }
 
 export const deleteDoctor = async (req, res) => {
-    const id = req.userId 
+    const id = req.userId
     try {
         const deletedDoctor = await DoctorModel.findByIdAndDelete(id)
         if (!deletedDoctor) {
@@ -46,42 +48,62 @@ export const deleteDoctor = async (req, res) => {
 }
 
 export const getDoctorDetails = async (req, res) => {
-    const id = req.userId 
+    const id = req.params.id;
     try {
-        const doctor = await DoctorModel.findById(id).populate("reviews").select('-password')
+        const doctor = await DoctorModel.findById(id)
+            .populate({
+                path: 'reviews',
+                populate: {
+                    path: 'user',
+                    select:'name photo' 
+                }
+            })
+            .select('-password'); // Exclude password field
+        
         if (!doctor) {
             return res.status(400).json({
-                message: 'no user found with given id'
-            })
+                message: 'No user found with the given id'
+            });
         }
+
         return res.status(200).json({
             message: 'User details fetched successfully.',
             doctor
-        })
-    } catch (err) {
-        return res.status(500).json(err.message)
-    }
-}
-
-export const getAllDoctors = async (req, res) => {
-    const { specialization, name } = req.query; 
-
-    try {
-        let filter = {};
-        if (specialization) {
-            filter.specialization = specialization;
-        }
-        if (name) {
-            filter.name = new RegExp(name, 'i'); // 'i' for case-insensitive matching
-        }
-        const doctors = await DoctorModel.find(filter).populate("reviews").select('-password');
-
-        if (!doctors || doctors.length===0) {
-            return res.status(400).json({ message: 'No doctors found' });
-        }
-
-        return res.status(200).json({ doctors });
+        });
     } catch (err) {
         return res.status(500).json({ message: err.message });
+    }
+};
+
+
+export const getAllDoctors = async (req, res) => {
+    try {
+        const query = req.query.q;
+
+        let doctors;
+        if (query) {
+            doctors = await DoctorModel.find({
+                $or: [
+                    { name: { $regex: query, $options: "i" } },
+                    { specialization: { $regex: query, $options: "i" } }
+                ]
+            }).populate("reviews").select('-password');
+        } else {
+            doctors = await DoctorModel.find().populate("reviews").select('-password');
+        }
+
+        if (!doctors || doctors.length === 0) {
+            return res.status(404).json({
+                message: 'No doctors found'
+            });
+        }
+
+        return res.status(200).json({
+            doctors
+        });
+    } catch (err) {
+        return res.status(500).json({
+            message: 'Server error: ' + err.message
+        });
     }
 };

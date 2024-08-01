@@ -27,7 +27,7 @@ export const createReview = async (req, res) =>
     session.startTransaction();
 
     try {
-        const doctorID = req.params.doctorId;
+        const doctorID = req.params.id;
         const userId = req.userId;
 
         const newReview = new ReviewSchema({
