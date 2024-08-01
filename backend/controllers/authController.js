@@ -36,7 +36,7 @@ export const register = async (req, res) => {
 
         if (user) {
             return res.status(400).json({
-                message: `${role} already exists`
+                message: `Account already exists`
             })
         }
 
@@ -70,7 +70,7 @@ export const register = async (req, res) => {
         }
 
         return res.status(201).json({
-            message: `${role} created successfully`
+            message: 'Account created successfully'
         })
 
     } catch (err) {
@@ -108,16 +108,13 @@ export const login = async (req, res) => {
             })
         }
         const token = generateToken(user);
-        const {
-            password,
-            appointments,
-            ...rest
-        } = user._doc
         return res.status(200).json({
             message: 'successfully login',
             token,
             data: {
-                ...rest
+                name:user.name,
+                email:user.email,
+                photo:user.photo, 
             },
             role:user.role
         })

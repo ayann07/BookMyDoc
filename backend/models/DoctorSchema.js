@@ -20,7 +20,7 @@ const DoctorSchema = new mongoose.Schema({
   photo: {
     type: String
   },
-  ticketPrice: {
+  fees: {
     type: Number
   },
   role: {
@@ -60,11 +60,6 @@ const DoctorSchema = new mongoose.Schema({
   totalRating: {
     type: Number,
     default: 0,
-  },
-  isApproved: {
-    type: String,
-    enum: ["pending", "approved", "cancelled"],
-    default: "pending",
   },
   appointments: [{
     type: mongoose.Types.ObjectId,

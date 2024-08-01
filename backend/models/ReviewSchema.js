@@ -25,6 +25,4 @@ const reviewSchema = new mongoose.Schema({
 });
 
 
-// reviewSchema.statics.calcAverageRatings=async function(doctor)
-
 export default mongoose.model("Review", reviewSchema);

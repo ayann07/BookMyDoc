@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     required:true
   },
 
-  bloodType: {
+  bloodGroup: {
     type: String
   },
   appointments: [{

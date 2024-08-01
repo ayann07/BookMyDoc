@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 
 
 export const updateDoctor = async (req, res) => {
-    const id = req.id
+    const id = req.userId 
     try {
         if(req.body.password)
         {
@@ -29,7 +29,7 @@ export const updateDoctor = async (req, res) => {
 }
 
 export const deleteDoctor = async (req, res) => {
-    const id = req.id
+    const id = req.userId 
     try {
         const deletedDoctor = await DoctorModel.findByIdAndDelete(id)
         if (!deletedDoctor) {
@@ -46,7 +46,7 @@ export const deleteDoctor = async (req, res) => {
 }
 
 export const getDoctorDetails = async (req, res) => {
-    const id = req.params.id
+    const id = req.userId 
     try {
         const doctor = await DoctorModel.findById(id).populate("reviews").select('-password')
         if (!doctor) {

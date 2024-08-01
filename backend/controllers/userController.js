@@ -1,7 +1,8 @@
 import PatientModel from '../models/UserSchema.js'
 import bcrypt from 'bcryptjs'
+
 export const updateUser = async (req, res) => {
-    const id = req.id
+    const id = req.userId
     try {
         if(req.body.password)
         {
@@ -27,7 +28,7 @@ export const updateUser = async (req, res) => {
 }
 
 export const deleteUser = async (req, res) => {
-    const id = req.id
+    const id = req.userId
     try {
         const deletedUser = await PatientModel.findByIdAndDelete(id)
         if (!deletedUser) {
@@ -44,7 +45,7 @@ export const deleteUser = async (req, res) => {
 }
 
 export const getUserDetails = async (req, res) => {
-    const id = req.params.id
+    const id = req.userId
     try {
         const user = await PatientModel.findById(id).select('-password')
         if (!user) {

@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import logo from '../assets/images/logo.png'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useEffect, useRef } from 'react';
+import logo from '../assets/images/logo.png';
+import { Link, NavLink,useNavigate } from 'react-router-dom';
 import { IoMdMenu } from "react-icons/io";
+import { useSelector, useDispatch } from "react-redux";
+import { setAuthToken, setAuthUser, setRole } from '../redux/userSlice';
+
 const navLinks = [
   {
     display: 'Home',
@@ -19,35 +22,45 @@ const navLinks = [
     display: 'Contact',
     path: '/contact'
   },
-]
-
+];
 
 const Header = () => {
-  const headerRef=useRef(null);
-  const menuRef=useRef(null);
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
 
-  const handleStickyHeader=()=>{
-    window.addEventListener('scroll',()=>{
-      if(document.body.scrollTop>80 || document.documentElement.scrollTop>80)
-      {
-        headerRef.current.classList.add('sticky__header')
-      }
-      else
-      {
-        headerRef.current.classList.remove('sticky__header')
-      }
-    })
-  }
 
-  useEffect(()=>{
-    handleStickyHeader()
-    return ()=>window.addEventListener('scroll',handleStickyHeader)
-  })
-  
-  
-  const toggleMenu=()=>{
-    menuRef.current.classList.toggle('show__menu')
-  }
+  const { authUser, role, authToken } = useSelector(store => store.user);
+  const dispatch = useDispatch();
+  const navigate=useNavigate()
+  const handleStickyHeader = () => {
+    window.addEventListener('scroll', () => {
+      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+        headerRef.current.classList.add('sticky__header');
+      } else {
+        headerRef.current.classList.remove('sticky__header');
+      }
+    });
+  };
+
+  const handleLogout = () => {
+    dispatch(setAuthToken(null));
+    dispatch(setAuthUser(null));
+    dispatch(setRole(null));
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+    localStorage.removeItem('role');
+    navigate('/')
+  };
+
+  useEffect(() => {
+    handleStickyHeader();
+    return () => window.removeEventListener('scroll', handleStickyHeader);
+  }, []);
+
+  const toggleMenu = () => {
+    menuRef.current.classList.toggle('show__menu');
+  };
+
   return (
     <div className='header flex items-center' ref={headerRef}>
       <div className="container">
@@ -67,22 +80,37 @@ const Header = () => {
                   </li>
                 )
               }
+              {authToken && authUser && (
+                <li className='lg:hidden'>
+                  <button onClick={handleLogout} className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>Logout</button>
+                </li>
+              )}
             </ul>
           </div>
-          <div className='items-center gap-4'>
-            <div className='w-[35px] h-[35px] rounded-full cursor-pointer flex gap-2'>
+          <div className='flex items-center gap-4'>
+            {authToken && authUser ? (
+              <div className='flex items-center gap-2'>
+                <Link to={`${role === 'doctor' ? 'doctors/profile/me' : 'users/profile/me'}`} className='flex items-center gap-2'>
+                  <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
+                    <img src={authUser?.photo} className='w-full h-full rounded-full' alt="" />
+                  </figure>
+                  <h2 className='text-[16px] font-[600]'>{authUser?.name}</h2>
+                </Link>
+                <button onClick={handleLogout} className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px] hidden lg:flex'>Logout</button>
+              </div>
+            ) : (
               <Link to='/login'>
-              <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px] '>Login</button>
+                <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px] '>Login</button>
               </Link>
-              <span className='pt-2 pr-3 lg:hidden md:hidden ' onClick={toggleMenu}>
-              <IoMdMenu className='w-6 h-6 cursor-pointer'/>
-              </span>
-            </div>   
+            )}
+            <span className='pt-2 pr-3 lg:hidden' onClick={toggleMenu}>
+              <IoMdMenu className='w-6 h-6 cursor-pointer' />
+            </span>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

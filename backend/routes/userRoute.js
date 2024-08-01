@@ -4,9 +4,9 @@ import { authenticate, restrict } from '../middleware/authMiddleware.js'
 
 const router=express.Router()
 
-router.put('/:id',authenticate,restrict(['patient']),updateUser)
-router.delete('/:id',authenticate,restrict(['patient']),deleteUser)
-router.get('/:id',authenticate,restrict(['patient']),getUserDetails)
+router.put('/',authenticate,restrict(['patient']),updateUser)
+router.delete('/',authenticate,restrict(['patient']),deleteUser)
+router.get('/mydetails',authenticate,restrict(['patient']),getUserDetails)
 router.get('/',restrict(['doctor']),getAllUsers)
 
 

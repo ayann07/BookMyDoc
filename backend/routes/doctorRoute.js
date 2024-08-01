@@ -7,9 +7,9 @@ const router=express.Router()
 
 router.use('/:doctorId/reviews/',reviewRoute)
 
-router.put('/:id',authenticate,restrict(['doctor']),updateDoctor)
-router.delete('/:id',authenticate,restrict(['doctor']),deleteDoctor)
-router.get('/:id',authenticate,getDoctorDetails)
+router.put('/',authenticate,restrict(['doctor']),updateDoctor)
+router.delete('/',authenticate,restrict(['doctor']),deleteDoctor)
+router.get('/mydetails',authenticate,getDoctorDetails)
 router.get('/',getAllDoctors)
 
 

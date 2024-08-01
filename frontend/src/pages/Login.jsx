@@ -1,15 +1,58 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { BASE_URL } from '../main'
+import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
+import { setAuthToken, setAuthUser, setRole } from '../redux/userSlice'
+import HashLoader from 'react-spinners/HashLoader'
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
+
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+    try {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await res.json();
+      if (res.ok) {
+        toast.success(data.message)
+        dispatch(setAuthToken(data.token))
+        dispatch(setAuthUser(data.data))
+        dispatch(setRole(data.role))
+        navigate('/')
+      }
+      else {
+        toast.error(data.message)
+      }
+    }
+    catch (err) {
+      toast.error(err.message || 'An unexpected error occurred');
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
 
   return (
     <section className='flex justify-center items-center min-h-screen px-5 lg:px-0'>
@@ -17,7 +60,7 @@ const Login = () => {
         <h3 className='text-headingColor text-[22px] leading-9 font-bold mb-10'>
           Hello! <span className='text-primaryColor'>Welcome</span> Back
         </h3>
-        <form className='py-4 md:py-0'>
+        <form onSubmit={submitHandler} className='py-4 md:py-0'>
           <div className='mb-5'>
             <input
               type="email"
@@ -44,7 +87,7 @@ const Login = () => {
             <button
               type='submit'
               className='w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3'>
-              Login
+              {loading ? <HashLoader size={35} color='#fffff' /> : 'Login'}
             </button>
           </div>
           <p className='mt-5 text-textColor text-center'>
