@@ -40,7 +40,7 @@ export const deleteDoctor = async (req, res) => {
             })
         }
         return res.status(200).json({
-            message: 'User deleted successfully.'
+            message: 'Account deleted successfully.'
         })
     } catch (err) {
         return res.status(500).json(err.message)
@@ -58,7 +58,14 @@ export const getDoctorDetails = async (req, res) => {
                     select:'name photo' 
                 }
             })
-            .select('-password'); // Exclude password field
+            .populate({
+                path:'bookings',
+                populate:{
+                    path:'user',
+                    select:'name email photo gender'
+                }
+            })
+            .select('-password'); 
         
         if (!doctor) {
             return res.status(400).json({

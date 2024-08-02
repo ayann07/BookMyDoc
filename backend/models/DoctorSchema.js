@@ -60,9 +60,9 @@ const DoctorSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  appointments: [{
+  bookings: [{
     type: mongoose.Types.ObjectId,
-    ref: "Appointment"
+    ref: "Booking"
   }],
 });
 

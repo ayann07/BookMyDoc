@@ -3,8 +3,8 @@ import logo from '../assets/images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoMdMenu } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
-import { setAuthToken, setAuthUser, setRole } from '../redux/userSlice';
-
+import useLogout from '../hooks/useLogout';
+import no_image_found from '../assets/images/no_image_found.jpeg'
 const navLinks = [
   {
     display: 'Home',
@@ -42,16 +42,9 @@ const Header = () => {
     });
   };
 
-  const handleLogout = () => {
-    dispatch(setAuthToken(null));
-    dispatch(setAuthUser(null));
-    dispatch(setRole(null));
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('authUser');
-    localStorage.removeItem('role');
-    navigate('/')
-  };
-
+ 
+  const handleLogout=useLogout()
+  
   useEffect(() => {
     handleStickyHeader();
     return () => window.removeEventListener('scroll', handleStickyHeader);
@@ -100,7 +93,7 @@ const Header = () => {
               <div className='flex items-center gap-2'>
                 <Link to={`${role === 'doctor' ? 'doctors/profile/me' : 'users/profile/me'}`} className='hidden lg:flex items-center gap-2'>
                   <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
-                    <img src={authUser?.photo} className='w-full h-full rounded-full' alt="Profile" />
+                    <img src={authUser?.photo ?authUser?.photo:no_image_found} className='w-full h-full rounded-full' alt="Profile" />
                   </figure>
                   <h2 className='text-[16px] font-[600]'>{authUser?.name}</h2>
                 </Link>

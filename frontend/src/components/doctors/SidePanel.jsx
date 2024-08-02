@@ -1,23 +1,36 @@
 import React from 'react'
+import {BASE_URL} from '../../main'
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast'
+import convertTo12HourFormat from '../../utils/convertTime';
 
 
-function convertTo12HourFormat(time) {
-  const timeParts=time.split(':')
-  let hours=parseInt(timeParts[0])
-  let mins=parseInt(timeParts[1])
-  let meridiem='AM'
-  if(hours>=12)
-  {
-    meridiem='PM'
-    if(hours>12)
+const SidePanel = ({ doctorId, fees, timeSlots }) => {
+  const { authToken } = useSelector(store => store.user);
+  const bookingHandler=async()=>{
+    try{
+    const res=await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`,{
+      method:'POST',
+      headers: {
+        Authorization: authToken
+    },
+    })
+    const data=await res.json()
+    if(!res.ok)
     {
-      hours-=12
+     toast.error(data.message+' ,please try again')
+    }
+    console.log('Checkout Session:', data.session);
+    if(data.session.url)
+      {
+        window.location.href=data.session.url
+      } 
+    }
+    catch(err)
+    {
+    toast.error(err.message)
     }
   }
-  return hours.toString().padStart(2) +":"+ mins.toString().padStart(2,'0')+" " + meridiem
-}
-
-const SidePanel = ({ fees, timeSlots }) => {
   return (
     <div className='shadow-panelShadow p-3 lg:p-5 rounded-md'>
       <div className='flex items-center justify-between'>
@@ -43,7 +56,12 @@ const SidePanel = ({ fees, timeSlots }) => {
 
         </ul>
       </div>
-      <button className='btn px-2 w-full rounded-md'>Book Appointment</button>
+      <button 
+      className='btn px-2 w-full rounded-md'
+      onClick={bookingHandler}
+      >
+        Book Appointment
+        </button>
     </div>
 
   )

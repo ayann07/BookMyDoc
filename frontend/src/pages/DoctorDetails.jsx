@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import no_image_found from '../assets/images/no_image_found.jpeg'
 import starIcon from '../assets/images/Star.png';
 import DoctorAbout from '../components/doctors/DoctorAbout';
 import Feedback from '../components/doctors/Feedback';
@@ -43,7 +43,7 @@ const DoctorDetails = () => {
           <div className='md:col-span-2'>
             <div className='flex items-center gap-5 '>
               <figure className='max-w-[200px] max-h-[200px]'>
-                <img src={data.photo} alt="" className='w-full' />
+                <img src={data.photo?data.photo:no_image_found} alt="" className='w-full' />
               </figure>
 
               <div>
@@ -98,7 +98,7 @@ const DoctorDetails = () => {
             </div>
           </div>
           <div>
-            <SidePanel fees={data.fees} timeSlots={data.timeSlots}/>
+            <SidePanel doctorId={id} fees={data.fees} timeSlots={data.timeSlots}/>
           </div>
         </div>
         }

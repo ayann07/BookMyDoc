@@ -7,20 +7,23 @@ import authRoute from './routes/authRoute.js'
 import userRoute from './routes/userRoute.js'
 import doctorRoute from './routes/doctorRoute.js'
 import reviewRoute from './routes/reviewRoute.js'
-
-
+import bookingRoute from './routes/bookingRoute.js'
+import webhookRouter from './routes/webhookRoute.js'
 dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 8000
 
 app.use(cors())
+app.use('/api/stripe/', webhookRouter);
 app.use(express.json())
 app.use(cookieParser())
 app.use('/api/auth/',authRoute);
 app.use('/api/user/',userRoute);
 app.use('/api/doctor/',doctorRoute)
 app.use('/api/reviews/',reviewRoute)
+app.use('/api/bookings/',bookingRoute)
+
 
 const connectToDB = async () => {
     try {

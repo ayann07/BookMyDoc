@@ -10,6 +10,7 @@ import Services from './pages/Services'
 import Doctors from './pages/Doctors'
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 function App() {
   return (
     <>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/doctors/:id" element={<DoctorDetails/>} />
         <Route path="/users/profile/me" element={<PatientDashboard/>} />
         <Route path="/doctors/profile/me" element={<DoctorDashboard/>} />
+        <Route path="/checkout-success" element={<CheckoutSuccess/>} />
       </Routes>
     </>
   );

@@ -7,7 +7,9 @@ import { BASE_URL } from '../../../main';
 import { useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast"
 import { setAuthToken, setAuthUser, setRole } from '../../../redux/userSlice';
+import useLogout from '../../../hooks/useLogout';
 const Settings = () => {
+    const handleLogout=useLogout()
     const { authUser, authToken } = useSelector(store => store.user);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -88,13 +90,7 @@ const Settings = () => {
             const data = await res.json();
             if (res.ok) {
                 toast.success(data.message);
-                dispatch(setAuthToken(null));
-                dispatch(setAuthUser(null));
-                dispatch(setRole(null));
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('authUser');
-                localStorage.removeItem('role');
-                navigate('/');
+                handleLogout()
             } else {
                 toast.error(data.message);
             }
