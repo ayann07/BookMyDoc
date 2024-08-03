@@ -26,6 +26,11 @@ const DoctorSchema = new mongoose.Schema({
   role: {
     type: String,
   },
+  gender: {
+    type: String,
+    enum: ["male", "female"],
+    required:true
+  },
 
   // Fields for doctors only
   specialization: {

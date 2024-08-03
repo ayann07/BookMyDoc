@@ -35,9 +35,9 @@ const UserSchema = new mongoose.Schema({
   bloodGroup: {
     type: String
   },
-  appointments: [{
+  bookings: [{
     type: mongoose.Types.ObjectId,
-    ref: "Appointment"
+    ref: "Booking"
   }],
 });
 

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {nanoid} from 'nanoid'
 
 const BookingSchema = new mongoose.Schema({
   doctor: {
@@ -26,6 +27,9 @@ const BookingSchema = new mongoose.Schema({
   },
   session:{
     type:String
+  },
+  ref_id:{
+    type:String,
   }
 }, {
   timestamps: true

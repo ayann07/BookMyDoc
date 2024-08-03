@@ -47,7 +47,15 @@ export const deleteUser = async (req, res) => {
 export const getUserDetails = async (req, res) => {
     const id = req.userId
     try {
-        const user = await PatientModel.findById(id).select('-password')
+        const user = await PatientModel.findById(id)
+        .populate({
+            path:'bookings',
+            populate:{
+                path:'doctor',
+                select:'name email photo '
+            }
+        })
+        .select('-password')
         if (!user) {
             return res.status(400).json({
                 message: 'no user found with given id'

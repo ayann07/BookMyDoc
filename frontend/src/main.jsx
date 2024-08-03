@@ -15,7 +15,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Toaster
         toastOptions={{
           duration: 4000,
-        }} />
+        }} 
+        />
       <App />
     </BrowserRouter>
   </Provider>

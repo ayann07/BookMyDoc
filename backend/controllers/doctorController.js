@@ -62,7 +62,7 @@ export const getDoctorDetails = async (req, res) => {
                 path:'bookings',
                 populate:{
                     path:'user',
-                    select:'name email photo gender'
+                    select:'name email photo '
                 }
             })
             .select('-password'); 

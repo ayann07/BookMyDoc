@@ -3,7 +3,6 @@ import formatDate from '../../../utils/formatDate';
 import no_image_found from '../../../assets/images/no_image_found.jpeg';
 
 const Appointments = ({ bookings }) => {
-  console.log(bookings);
   return (
     <div className='w-full'>
       <table className='min-w-full text-left text-sm sm:text-lg text-gray-700'>
@@ -13,7 +12,7 @@ const Appointments = ({ bookings }) => {
               Name
             </th>
             <th scope='col' className='px-2 py-3 sm:px-4 sm:py-2 md:px-10 md:py-5'>
-              Gender
+              Reference ID
             </th>
             <th scope='col' className='px-2 py-3 sm:px-4 sm:py-2 md:px-10 md:py-5'>
               Payment
@@ -36,7 +35,7 @@ const Appointments = ({ bookings }) => {
                   <div className='text-xs sm:text-sm md:text-lg text-gray-500'>{item.user.email}</div>
                 </div>
               </th>
-              <td className='px-2 py-3 sm:px-4 sm:py-2 md:px-10 md:py-5'>{item.user.gender}</td>
+              <td className='px-2 py-3 sm:px-4 sm:py-2 md:px-10 md:py-5'>{item.ref_id}</td>
               <td className='px-2 py-3 sm:px-4 sm:py-2 md:px-10 md:py-5'>
                 {item.isPaid ? (
                   <div className='flex items-center'>

@@ -9,6 +9,8 @@ import doctorRoute from './routes/doctorRoute.js'
 import reviewRoute from './routes/reviewRoute.js'
 import bookingRoute from './routes/bookingRoute.js'
 import webhookRouter from './routes/webhookRoute.js'
+import contactRouter from './routes/contactRoute.js'
+
 dotenv.config()
 
 const app = express()
@@ -23,7 +25,7 @@ app.use('/api/user/',userRoute);
 app.use('/api/doctor/',doctorRoute)
 app.use('/api/reviews/',reviewRoute)
 app.use('/api/bookings/',bookingRoute)
-
+app.use('/api/contact-us/',contactRouter)
 
 const connectToDB = async () => {
     try {
