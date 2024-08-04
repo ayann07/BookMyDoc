@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Overview from '../components/dashboard/DoctorDashboard/Overview';
-import Appointments from '../components/dashboard/DoctorDashboard/appointments';
+import Appointments from '../components/dashboard/DoctorDashboard/Appointments';
 import Settings from '../components/dashboard/DoctorDashboard/Settings';
 import { useSelector } from 'react-redux';
 import { BASE_URL } from '../main';
