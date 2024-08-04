@@ -25,13 +25,13 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
+        <Route path="/checkout-success" element={<CheckoutSuccess />} />
+        <Route path="/checkout-failure" element={<CheckoutFailure />}/>
         <Route path="/services" element={<Services />} />
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/doctors/:id" element={<DoctorDetails />} />
         {authUser && role === 'patient' && <Route path="/users/profile/me" element={<PatientDashboard />} />}
         {authUser && role === 'doctor' && <Route path="/doctors/profile/me" element={<DoctorDashboard />} />}
-        {role==='patient' && <Route path="/checkout-success" element={<CheckoutSuccess />} />}
-        {role==='patient' && <Route path="/checkout-failure" element={<CheckoutFailure />} />}
         <Route path="*" element={<Error404 />} /> 
       </Routes>
     </>
