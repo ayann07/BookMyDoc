@@ -1,32 +1,27 @@
 import React from 'react'
-import heroImg01 from '../assets/images/hero-img01.png';
-import heroImg02 from '../assets/images/hero-img02.png';
-import heroImg03 from '../assets/images/hero-img03.png';
 import ServiceList from '../components/services/ServiceList';
-import featureImg from '../assets/images/feature-img.png';
 import DoctorList from '../components/doctors/DoctorList';
-import faqImg from '../assets/images/faq-img.png';
 import FaqList from '../components/faqs/FaqList';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
-
-
+import DoctorBanner from '../assets/images/doctorbanner.png'
+import doctor1 from '../assets/images/doctor1.png'
+import doctor2 from '../assets/images/doctor3.png'
 const Home = () => {
-  const navigate=useNavigate()
-  const {authUser,role}=useSelector(store => store.user);
-  const handleAppointment=()=>{
-   if(authUser && role=='patient')
-   {
-     toast.success('Find a doctor to request an appointment')
-     navigate('/doctors')
-   }
-   else if(!authUser)
-   {
-    toast.success('Login to request an appointment')
-    navigate('/login')
-   }  
+  const navigate = useNavigate()
+  const { authUser, role } = useSelector(store => store.user);
+
+  const handleAppointment = () => {
+    if (authUser && role === 'patient') {
+      toast.success('Find a doctor to request an appointment')
+      navigate('/doctors')
+    } else if (!authUser) {
+      toast.success('Login to request an appointment')
+      navigate('/login')
+    }
   }
+
   return (
     <>
       <section className='hero__section pt-[60px] 2xl:h-[800px]'>
@@ -38,21 +33,14 @@ const Home = () => {
                 <p className='text__para'>
                   It's our promise to deliver exceptional care, combining medical excellence with compassion to support your journey toward optimal health and well-being.
                 </p>
-                {role!=='doctor' && <button 
-                className='btn'
-                onClick={handleAppointment}
-                >Request an Appointment</button>
-                }
+                {role !== 'doctor' && <button 
+                  className='btn'
+                  onClick={handleAppointment}
+                >Request an Appointment</button>}
               </div>
             </div>
-            <div className='flex gap-[30px] justify-end'>
-              <div>
-                <img src={heroImg01} alt="" className='w-full' />
-              </div>
-              <div className='mt-[30px]'>
-                <img src={heroImg02} alt="" className='w-full mb-[30px]' />
-                <img src={heroImg03} alt="" className='w-full ' />
-              </div>
+            <div className='relative z-10 xl:w-[770px] flex justify-end mt-[50px] lg:mt-0'>
+              <img src={DoctorBanner} className='w-full' alt="Doctor Banner" />
             </div>
           </div>
         </div>
@@ -83,7 +71,7 @@ const Home = () => {
               </ul>
             </div>
             <div className='relative z-10 xl:w-[770px] flex justify-end mt-[50px] lg:mt-0'>
-              <img src={featureImg} className='w-3/4' alt="" />
+              <img src={doctor1} className='w-3/4' alt="" />
             </div>
           </div>
         </div>
@@ -93,18 +81,18 @@ const Home = () => {
           <div className='lg:w-[470px] mx-auto'>
             <h2 className='heading text-center'>Our Great Doctors</h2>
           </div>
-          <DoctorList/>
+          <DoctorList />
         </div>
       </section>
       <section>
         <div className='container'>
           <div className='flex justify-between gap-[50px] lg:gap-0'>
-           <div className='w-1/2 hidden md:block'>
-            <img src={faqImg} alt="" />
+            <div className='w-1/2 hidden md:block'>
+              <img src={doctor2} alt="" />
             </div>
             <div className='w-full md:w-1/2'>
               <h2 className='heading'>Frequently Asked Questions</h2>  
-              <FaqList/>
+              <FaqList />
             </div> 
           </div>
         </div>
@@ -113,4 +101,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;

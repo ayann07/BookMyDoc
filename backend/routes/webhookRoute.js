@@ -51,14 +51,14 @@ router.post('/webhook', express.raw({
                         from: 'Doctor Appointment Website',
                         to: user.email,
                         subject: 'Doctor Appointment Confirmed',
-                        html: UserSuccessMail(user.name, doctor.name, doctor.email, booking.ref_id)
+                        html: UserSuccessMail(user.name, doctor.name, doctor.email, booking.ref_id,booking.selected_date)
                     });
 
                     await transporter.sendMail({
                         from: 'Doctor Appointment Website',
                         to: doctor.email,
                         subject: 'New Appointment Confirmed',
-                        html: DoctorSuccessMail(doctor.name, user.name, user.email, booking.ref_id)
+                        html: DoctorSuccessMail(doctor.name, user.name, user.email, booking.ref_id,booking.selected_date)
                     });
                 }
             } catch (err) {
@@ -94,14 +94,14 @@ router.post('/webhook', express.raw({
                         from: 'Doctor Appointment Website',
                         to: user.email,
                         subject: 'Doctor Appointment Failed',
-                        html: UserFailedMail(user.name, doctor.name, doctor.email, booking.ref_id)
+                        html: UserFailedMail(user.name, doctor.name, doctor.email, booking.ref_id,booking.selected_date)
                     });
 
                     await transporter.sendMail({
                         from: 'Doctor Appointment Website',
                         to: doctor.email,
                         subject: 'Appointment Failed',
-                        html: DoctorFailedMail(doctor.name, user.name, user.email, booking.ref_id)
+                        html: DoctorFailedMail(doctor.name, user.name, user.email, booking.ref_id,booking.selected_date)
                     });
                 }
             } catch (err) {

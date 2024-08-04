@@ -57,7 +57,7 @@ export const IssueReceived = (name, email, subject, message,ref_no) => {
     `;
 };
 
-export const UserSuccessMail = (name, doctor_name, doctor_email, reference_no) => {
+export const UserSuccessMail = (name, doctor_name, doctor_email, reference_no,selected_date) => {
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -111,6 +111,7 @@ export const UserSuccessMail = (name, doctor_name, doctor_email, reference_no) =
                 <p>Your booking has been successfully confirmed. Here are the details:</p>
                 <p><strong>Doctor Name:</strong> ${doctor_name}</p>
                 <p><strong>Doctor Email:</strong> ${doctor_email}</p>
+                <p><strong>Appointment Date:</strong> ${selected_date}</p>
                 <p><strong>Reference Number:</strong> ${reference_no}</p>
             </div>
             <div class="footer">
@@ -122,7 +123,7 @@ export const UserSuccessMail = (name, doctor_name, doctor_email, reference_no) =
     `;
 };
 
-export const DoctorSuccessMail = (name, user_name, user_email, reference_no) => {
+export const DoctorSuccessMail = (name, user_name, user_email, reference_no,selected_date) => {
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -176,6 +177,7 @@ export const DoctorSuccessMail = (name, user_name, user_email, reference_no) => 
                 <p>You have a new booking. Here are the details:</p>
                 <p><strong>User Name:</strong> ${user_name}</p>
                 <p><strong>User Email:</strong> ${user_email}</p>
+                <p><strong>Appointment date:</strong> ${selected_date}</p>
                 <p><strong>Reference Number:</strong> ${reference_no}</p>
             </div>
             <div class="footer">
@@ -187,7 +189,7 @@ export const DoctorSuccessMail = (name, user_name, user_email, reference_no) => 
     `;
 };
 
-export const UserFailedMail = (name, doctorName, doctorEmail, referenceNo) => {
+export const UserFailedMail = (name, doctorName, doctorEmail, referenceNo,selected_date) => {
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -238,7 +240,7 @@ export const UserFailedMail = (name, doctorName, doctorEmail, referenceNo) => {
             </div>
             <div class="content">
                 <p>Dear ${name},</p>
-                <p>We regret to inform you that your appointment with Dr. ${doctorName} (${doctorEmail}) could not be completed due to a payment issue.</p>
+                <p>We regret to inform you that your appointment with Dr. ${doctorName} (${doctorEmail}) for the date ${selected_date} could not be completed due to a payment issue.</p>
                 <p>Please check your payment details and try again.</p>
                 <p><strong>Reference Number:</strong> ${referenceNo}</p>
             </div>
@@ -252,7 +254,7 @@ export const UserFailedMail = (name, doctorName, doctorEmail, referenceNo) => {
     `;
 };
 
-export const DoctorFailedMail = (name, userName, userEmail, referenceNo) => {
+export const DoctorFailedMail = (name, userName, userEmail, referenceNo,selected_date) => {
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -303,7 +305,7 @@ export const DoctorFailedMail = (name, userName, userEmail, referenceNo) => {
             </div>
             <div class="content">
                 <p>Dear Dr. ${name},</p>
-                <p>We regret to inform you that the appointment with ${userName} (${userEmail}) could not be completed due to a payment issue.</p>
+                <p>We regret to inform you that the appointment with ${userName} (${userEmail}) for the date ${selected_date} could not be completed due to a payment issue.</p>
                 <p><strong>Reference Number:</strong> ${referenceNo}</p>
             </div>
             <div class="footer">

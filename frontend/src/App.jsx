@@ -13,6 +13,7 @@ import DoctorDashboard from "./pages/DoctorDashboard";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import { useSelector } from "react-redux";
 import Error404 from "./pages/Error404";
+import CheckoutFailure from "./pages/CheckoutFailure";
 
 function App() {
   const { authUser, role } = useSelector(store => store.user);
@@ -30,6 +31,7 @@ function App() {
         {authUser && role === 'patient' && <Route path="/users/profile/me" element={<PatientDashboard />} />}
         {authUser && role === 'doctor' && <Route path="/doctors/profile/me" element={<DoctorDashboard />} />}
         {role==='patient' && <Route path="/checkout-success" element={<CheckoutSuccess />} />}
+        {role==='patient' && <Route path="/checkout-failure" element={<CheckoutFailure />} />}
         <Route path="*" element={<Error404 />} /> 
       </Routes>
     </>
