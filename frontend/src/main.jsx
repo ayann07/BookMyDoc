@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store.js'
 
 
-export const BASE_URL = "http://localhost:5000/api"
+export const BASE_URL = "https://bookmydoc-fxrw.onrender.com/api"
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <BrowserRouter>
