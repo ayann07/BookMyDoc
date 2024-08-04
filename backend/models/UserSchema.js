@@ -21,19 +21,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default:null
   },
-  role: {
-    type: String,
-    enum: ["patient", "admin"],
-    required:true
-  },
   gender: {
     type: String,
     enum: ["male", "female"],
     required:true
   },
-
-  bloodGroup: {
-    type: String
+  role: {
+    type: String,
   },
   bookings: [{
     type: mongoose.Types.ObjectId,

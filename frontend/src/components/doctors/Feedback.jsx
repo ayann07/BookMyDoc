@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import formatDate from '../../utils/formatDate';
 import { AiFillStar } from "react-icons/ai";
 import FeedbackForm from './FeedbackForm';
+import { useSelector } from 'react-redux';
 
 
 const Feedback = ({reviews,totalRating}) => {
-  console.log(reviews)
+  const {authUser,role}=useSelector(store => store.user);
   const [showFeedbackForm,setShowFeedbackForm]=useState(false)
   return (
     <div>
@@ -41,7 +42,7 @@ const Feedback = ({reviews,totalRating}) => {
           )
           }
       </div>
-      {!showFeedbackForm && <div className='text-center'>
+      {  authUser && role!=='doctor' && !showFeedbackForm && <div className='text-center'>
         <button className='btn' onClick={()=>setShowFeedbackForm(true)}>Give Feedback</button>
       </div>
       }

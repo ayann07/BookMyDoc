@@ -1,26 +1,20 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
 import uploadImageToCloudinary from '../../../utils/uploadCloudinary.js';
 import { BASE_URL } from '../../../main.jsx'
 import toast from "react-hot-toast"
 import HashLoader from 'react-spinners/HashLoader'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useLogout from '../../../hooks/useLogout.js';
 const PatientSettings = () => {
   const handleLogout = useLogout()
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewURL, setPreviewURL] = useState("")
   const { authToken } = useSelector(store => store.user);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     photo: '',
-    bloodGroup: '',
     gender: '',
   })
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
 
   const handleInputChange = (e) => {
@@ -30,8 +24,6 @@ const PatientSettings = () => {
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0]
     const data = await uploadImageToCloudinary(file)
-    setPreviewURL(data.url)
-    setSelectedFile(data.url)
     setFormData({ ...formData, photo: data.url })
   }
 
@@ -104,16 +96,6 @@ const PatientSettings = () => {
             className='w-full px-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[22px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer'
           />
         </div>
-        <div className='mb-5'>
-          <input
-            type="text"
-            placeholder='Blood group'
-            name='bloodGroup'
-            value={formData.bloodGroup}
-            onChange={handleInputChange}
-            className='w-full px-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[22px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer'
-          />
-        </div>
         <div className='mb-5  items-center justify-between'>
           <label className='text-headingColor font-bold text-[16px] leading-7'>
             Gender:
@@ -130,8 +112,8 @@ const PatientSettings = () => {
           </label>
         </div>
         <div className='mb-5 flex items-center gap-3'>
-          {selectedFile && <figure className='w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center'>
-            <img src={previewURL} alt="" className='w-full rounded-full' />
+          {formData.photo && <figure className='w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center'>
+            <img src={formData.photo} alt="" className='w-full rounded-full' />
           </figure>}
           <div className='relative w-[130px] h-[50px]'>
             <input

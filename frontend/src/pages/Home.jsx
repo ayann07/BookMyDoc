@@ -7,7 +7,26 @@ import featureImg from '../assets/images/feature-img.png';
 import DoctorList from '../components/doctors/DoctorList';
 import faqImg from '../assets/images/faq-img.png';
 import FaqList from '../components/faqs/FaqList';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+
+
 const Home = () => {
+  const navigate=useNavigate()
+  const {authUser,role}=useSelector(store => store.user);
+  const handleAppointment=()=>{
+   if(authUser && role=='patient')
+   {
+     toast.success('Find a doctor to request an appointment')
+     navigate('/doctors')
+   }
+   else if(!authUser)
+   {
+    toast.success('Login to request an appointment')
+    navigate('/login')
+   }  
+  }
   return (
     <>
       <section className='hero__section pt-[60px] 2xl:h-[800px]'>
@@ -19,7 +38,11 @@ const Home = () => {
                 <p className='text__para'>
                   It's our promise to deliver exceptional care, combining medical excellence with compassion to support your journey toward optimal health and well-being.
                 </p>
-                <button className='btn'>Request an Appointment</button>
+                {role!=='doctor' && <button 
+                className='btn'
+                onClick={handleAppointment}
+                >Request an Appointment</button>
+                }
               </div>
             </div>
             <div className='flex gap-[30px] justify-end'>

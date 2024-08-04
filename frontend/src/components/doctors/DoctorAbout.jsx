@@ -9,7 +9,7 @@ const DoctorAbout = ({ name, about, qualifications, experiences }) => {
                     <span className='text-irisBlueColor font-bold text-[24px] leading-9'>{name}</span>
                 </h3>
                 <p className='text__para'>
-                    {about ? about : 'Please tell us about yourself...'}
+                    {about}
                 </p>
             </div>
 

@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
 import { loadState } from './loadState';
-
 const preloadedState = loadState();
 
 const store = configureStore({
@@ -10,8 +9,6 @@ const store = configureStore({
     },
     preloadedState
 });
-
-// Save state to local storage
 store.subscribe(() => {
     const state = store.getState();
     localStorage.setItem('authToken', state.user.authToken);

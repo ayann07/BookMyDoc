@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 
 export const getCheckoutSession = async (req, res) => {
     try {
+        const {selectedDate}=req.body
         const doctor = await DoctorSchema.findById(req.params.doctorId);
         const user = await UserSchema.findById(req.userId);
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -41,7 +42,8 @@ export const getCheckoutSession = async (req, res) => {
             session: session.id,
             status: 'pending',
             isPaid: false,
-            ref_id:ref_id
+            ref_id:ref_id,
+            selected_date:selectedDate
         });
         doctor.bookings.push(booking._id)
         user.bookings.push(booking._id)
@@ -70,3 +72,4 @@ export const getCheckoutSession = async (req, res) => {
         });
     }
 };
+

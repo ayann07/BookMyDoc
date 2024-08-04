@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import {nanoid} from 'nanoid'
 
 const BookingSchema = new mongoose.Schema({
   doctor: {
@@ -30,6 +29,10 @@ const BookingSchema = new mongoose.Schema({
   },
   ref_id:{
     type:String,
+  },
+  selected_date:{
+    type:Date,
+    required:true
   }
 }, {
   timestamps: true

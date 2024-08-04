@@ -5,35 +5,48 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import no_image_found from '../../assets/images/no_image_found.jpeg';
 
 const DoctorCard = ({ doctor }) => {
-    const { name, avgRating, totalRating, photo, specialization, experiences } = doctor;
+    const { name, avgRating, totalRating, photo, specialization, experiences, fees } = doctor;
+    const hospital = experiences && experiences[0]?.hospital;
+
     return (
-        <div className='p-3 lg:p-5'>
-            <div className='w-full h-72 overflow-hidden relative'>
+        <div className='p-4 lg:p-6 border rounded-lg shadow-lg transition-transform transform hover:scale-105'>
+            <div className='w-full h-60 lg:h-72 overflow-hidden relative rounded-t-lg'>
                 <img src={photo ? photo : no_image_found} className='w-full h-full object-cover object-center' alt={name} />
             </div>
-            <h2 className='text-[18px] leading-[30px] lg:text-[26px] lg:leading-9 text-headingColor font-[700] mt-3 lg:mt-5'>
-                {name}
-            </h2>
-            <div className='mt-2 lg:mt-4 flex items-center justify-between'>
-                <span className='bg-[#CCF0F3] text-irisBlueColor py-1 px-2 lg:py-2 lg:px-6 text-[18px] rounded leading-4 lg:leading-7 font-semibold'>
-                    {specialization}
-                </span>
-                <div className='flex items-center gap-[6px]'>
-                    <span className='flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] font-semibold text-headingColor'>
-                        <img src={starIcon} alt="Rating" /> {avgRating}
+            <div className='p-4'>
+                <h2 className='text-xl lg:text-2xl font-bold text-headingColor mt-4 lg:mt-6'>
+                    Dr. {name}
+                </h2>
+                <div className='mt-2 lg:mt-4 flex items-center justify-between'>
+                    <span className='bg-[#E0F7FA] text-teal-600 py-1 px-3 lg:py-2 lg:px-4 text-lg rounded-full leading-4 font-semibold'>
+                        {specialization}
                     </span>
-                    <span className='text-[14px] lg:leading-7 font-[400] leading-6 lg:text-[16px] text-textColor'>({totalRating})</span>
+                    <div className='flex items-center gap-2'>
+                        <span className='flex items-center gap-1 text-sm lg:text-lg font-semibold text-headingColor'>
+                            <img src={starIcon} alt="Rating" className='w-5 h-5' /> {avgRating}
+                        </span>
+                        <span className='text-sm lg:text-lg font-medium text-textColor'>({totalRating})</span>
+                    </div>
                 </div>
-            </div>
-            <div className='mt-[18px] lg:mt-5 flex items-center justify-between'>
-                <div>
-                    <p className='text-[14px] leading-6 font-[400] text-textColor'>At {experiences && experiences[0]?.hospital}</p>
+                <div className='mt-4 lg:mt-6'>
+                    <p className='text-sm lg:text-base font-medium text-textColor'>
+                        Fees: ₹ {fees}
+                    </p>
                 </div>
-                <Link to={`/doctors/${doctor?._id}`}
-                    className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-primaryColor hover:border-none hover:text-white'
-                >
-                    <FaArrowRightLong />
-                </Link>
+                
+                    <div className='mt-4 lg:mt-6 bg-[#F1F1F1] p-3 rounded-lg'>
+                        <p className='text-sm lg:text-base font-medium text-headingColor'>
+                            <span className='font-normal text-textColor'>Hospital:</span> {hospital}
+                        </p>
+                    </div>
+                
+                <div className='mt-4 lg:mt-6 flex items-center justify-center'>
+                    <Link to={`/doctors/${doctor?._id}`}
+                        className='w-10 h-10 rounded-full border border-solid border-[#181A1E] flex items-center justify-center group hover:bg-primaryColor hover:border-transparent hover:text-white transition-colors duration-300'
+                    >
+                        <FaArrowRightLong className='w-5 h-5' />
+                    </Link>
+                </div>
             </div>
         </div>
     );
