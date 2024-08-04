@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 import { DoctorFailedMail, DoctorSuccessMail, UserFailedMail, UserSuccessMail } from '../utils/emailTemplates.js';
 import UserSchema from '../models/UserSchema.js';
 import DoctorSchema from '../models/DoctorSchema.js';
-
+import formatDate from "../utils/formatDate.js";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -51,14 +51,14 @@ router.post('/webhook', express.raw({
                         from: 'Doctor Appointment Website',
                         to: user.email,
                         subject: 'Doctor Appointment Confirmed',
-                        html: UserSuccessMail(user.name, doctor.name, doctor.email, booking.ref_id,booking.selected_date)
+                        html: UserSuccessMail(user.name, doctor.name, doctor.email, booking.ref_id,formatDate(booking.selected_date))
                     });
 
                     await transporter.sendMail({
                         from: 'Doctor Appointment Website',
                         to: doctor.email,
                         subject: 'New Appointment Confirmed',
-                        html: DoctorSuccessMail(doctor.name, user.name, user.email, booking.ref_id,booking.selected_date)
+                        html: DoctorSuccessMail(doctor.name, user.name, user.email, booking.ref_id,formatDate(booking.selected_date))
                     });
                 }
             } catch (err) {
@@ -94,14 +94,14 @@ router.post('/webhook', express.raw({
                         from: 'Doctor Appointment Website',
                         to: user.email,
                         subject: 'Doctor Appointment Failed',
-                        html: UserFailedMail(user.name, doctor.name, doctor.email, booking.ref_id,booking.selected_date)
+                        html: UserFailedMail(user.name, doctor.name, doctor.email, booking.ref_id,formatDate(booking.selected_date))
                     });
 
                     await transporter.sendMail({
                         from: 'Doctor Appointment Website',
                         to: doctor.email,
                         subject: 'Appointment Failed',
-                        html: DoctorFailedMail(doctor.name, user.name, user.email, booking.ref_id,booking.selected_date)
+                        html: DoctorFailedMail(doctor.name, user.name, user.email, booking.ref_id,formatDate(booking.selected_date))
                     });
                 }
             } catch (err) {

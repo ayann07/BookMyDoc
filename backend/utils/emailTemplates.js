@@ -1,3 +1,4 @@
+
 export const IssueReceived = (name, email, subject, message,ref_no) => {
     return `<!DOCTYPE html>
     <html lang="en">
